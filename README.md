@@ -5,5 +5,6 @@ A ftp client for Linux
 
 python 3.x
 
-tqdm
-run: pip install tqdm
+tqdm 
+run: 
+```pip install tqdm```
