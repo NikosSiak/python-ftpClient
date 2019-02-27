@@ -7,4 +7,4 @@ python 3.x
 
 tqdm 
 run: 
-```pip install tqdm```
+pip install tqdm
