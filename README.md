@@ -12,10 +12,10 @@ pip install tqdm
 
 <b><h2>Usage</h2></b>
 
-if you want to connect as a user
+if you want to connect as a user <br>
 python3 ftp-client.py username password
 
-if you want to connect as anonymous
+if you want to connect as anonymous <br>
 python3 ftp-client.py
 
 <b><h4>Notes</h4></b>
