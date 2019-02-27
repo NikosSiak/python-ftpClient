@@ -14,7 +14,6 @@ port = 2000 	    #change it with yours
 
 if len(sys.argv) != 3:
 	print ("Usage {} username password".format(sys.argv[0]))
-	print ("Usage {} update".format(sys.argv[0]))
 	exit()
 
 try:
