@@ -4,10 +4,6 @@ import readline
 import os
 from tqdm import tqdm
 
-#na kanw to autocomplete swsta
-#otan grafei download na vgazei mono arxeia/fakelous tou server
-#otan grafei upload na vgazei mono arxeia/fakelous tou client
-
 #BLUE='\033[1;34m'
 #RED='\033[0;31m'
 #DEFAULT='\033[0m'
