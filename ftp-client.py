@@ -9,20 +9,8 @@ from tqdm import tqdm
 #DEFAULT='\033[0m'
 
 ftp = FTP('')
-
-if len(sys.argv)==2 and sys.argv[1] == 'update':
-	filename = sys.argv[0]
-	try:
-		ftp.connect('192.168.1.50',2000)
-		ftp.login()
-		file = open(filename, 'wb')
-		ftp.retrbinary('RETR ' + filename, file.write, 2000)
-		ftp.quit()
-		file.close()
-	except:
-		print ("\033[0;31m" + "Error Connecting to server \033[0m")
-	exit()
-
+ip = '192.168.1.50' #change it with yours
+port = 2000 	    #change it with yours
 
 if len(sys.argv) != 3:
 	print ("Usage {} username password".format(sys.argv[0]))
@@ -30,7 +18,7 @@ if len(sys.argv) != 3:
 	exit()
 
 try:
-	ftp.connect('192.168.1.50',2000)
+	ftp.connect(ip,port)
 	ftp.login(sys.argv[1],sys.argv[2])
 	ftp.encoding = 'utf-8'
 except:
@@ -72,12 +60,12 @@ def uploadFile(filename,pbar):
 		if counter!=0:
 			for i in range(len(filename)-1,-1,-1):
 				if filename[i]=='(':
-					anoigei = i
+					opens = i
 					break
 				elif filename[i]==')':
-					kleinei = i
-			ext = filename[kleinei+1:]
-			name = filename[:anoigei]
+					closes = i
+			ext = filename[closes+1:]
+			name = filename[:opens]
 			filename = name + ext
 		counter+=1
 		for i in range(len(filename)-1,-1,-1):
@@ -89,9 +77,7 @@ def uploadFile(filename,pbar):
 		filename = filename + '(' + str(counter) + ')' + ext
 	file = open(filename2, 'rb')
 	filesize = os.path.getsize(filename2)
-	#with tqdm(unit = 'blocks', unit_scale = True, leave = True, miniters = 1, desc = 'Uploading......', total = filesize) as tqdm_instance:
-	#	ftp.storbinary('STOR '+filename, file, 2000,callback = lambda sent: tqdm_instance.update(len(sent)))
-	ftp.storbinary('STOR '+filename, file, 2000,callback = lambda sent: pbar.update(len(sent)))
+	ftp.storbinary('STOR '+filename, file, port,callback = lambda sent: pbar.update(len(sent)))
 	file.close()
 
 def downloadFile(filename,pbar):
@@ -101,12 +87,12 @@ def downloadFile(filename,pbar):
 		if counter!=0:
 			for i in range(len(filename)-1,-1,-1):
 				if filename[i]=='(':
-					anoigei = i
+					opens = i
 					break
 				elif filename[i]==')':
-					kleinei = i
-			ext = filename[kleinei+1:]
-			name = filename[:anoigei]
+					closes = i
+			ext = filename[closes+1:]
+			name = filename[:opens]
 			filename = name + ext
 		counter+=1
 		ind = 0
@@ -122,13 +108,6 @@ def downloadFile(filename,pbar):
 			pbar.update(len(data))
 			fd.write(data)
 		ftp.retrbinary('RETR {}'.format(filename2), cb)
-		"""ftp.voidcmd('TYPE i')
-		filesize = ftp.size(filename2)
-		with tqdm(unit = 'blocks', unit_scale = True, leave = True, miniters = 1, desc = 'Downloading......', total = filesize) as pbar:
-			def cb(data):
-				pbar.update(len(data))
-				fd.write(data)
-			ftp.retrbinary('RETR {}'.format(filename2), cb)"""
 
 def downloadFolder(foldername,pbar):
 	counter = 0
@@ -183,13 +162,6 @@ def uploadFolder(foldername,pbar):
 	ftp.cwd('..')
 
 def completer(text, state):
-	"""ind = text.find('cd')
-	ind2 = text.find('download')
-	if ind == -1 and ind2 == -1:
-		options = [i for i in commands if i.startswith(text)]
-	else:
-		ind3 = max(ind,ind2)
-		options = [i for i in files if i.startswith(text[ind3+1:])]"""
 	options = [i for i in ftp.nlst() if i.startswith(text)]
 	for i in ['ls','pwd','cd','download','upload','size','exit','help']:
 		if i.startswith(text):
