@@ -12,17 +12,22 @@ ftp = FTP('')
 ip = '192.168.1.50' #change it with yours
 port = 2000 	    #change it with yours
 
-if len(sys.argv) != 3:
-	print ("Usage {} username password".format(sys.argv[0]))
-	exit()
-
-try:
-	ftp.connect(ip,port)
-	ftp.login(sys.argv[1],sys.argv[2])
-	ftp.encoding = 'utf-8'
-except:
-	print ("\033[0;31m" + "Error Connecting to server \033[0m")
-	exit()
+if len(sys.argv) == 3:
+	try:
+		ftp.connect(ip,port)
+		ftp.login(sys.argv[1],sys.argv[2])
+		ftp.encoding = 'utf-8'
+	except:
+		print ("\033[0;31m" + "Error Connecting to server \033[0m")
+		exit()
+else:
+	try:
+		ftp.connect(ip,port)
+		ftp.login()
+		ftp.encoding = 'utf-8'
+	except:
+		print ("\033[0;31m" + "Error Connecting to server \033[0m")
+		exit()
 
 def isFolder(foldername):
 	try:
