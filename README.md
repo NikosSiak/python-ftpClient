@@ -1,16 +1,17 @@
 # python-ftpClient
 A ftp client for Linux
 
-<b><h2>Dependencies</h2></b>
+##**Dependencies**
 
 python 3.x
 
 tqdm 
 run: <br>
+```
 pip install tqdm
+```
 
-
-<b><h2>Usage</h2></b>
+##**Usage**
 
 if you want to connect as a user <br>
 ```
@@ -20,5 +21,5 @@ if you want to connect as anonymous <br>
 ```
 python3 ftp-client.py
 ````
-<b><h4>Notes</h4></b>
+####**Notes**
 works on termux on android and with the ubuntu terminal on windows
