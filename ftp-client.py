@@ -135,7 +135,7 @@ def downloadFolder(foldername,pbar):
 			try:
 				downloadFile(file,pbar)
 			except:
-				print("\033[0;31m" + "error \033[0m")
+				print(RED + "error" + DEFAULT)
 	os.chdir('..')
 	ftp.cwd('..')
 
@@ -161,7 +161,7 @@ def uploadFolder(foldername,pbar):
 			try:
 				uploadFile(file,pbar)
 			except:
-				print("\033[0;31m" + "error \033[0m")
+				print(RED + "error Uploading file: " + file + DEFAULT)
 	os.chdir('..')
 	ftp.cwd('..')
 
@@ -207,7 +207,7 @@ while True:
 				with tqdm(unit = 'blocks', unit_scale = True, leave = True, miniters = 1, desc = 'Downloading......', total = filesize) as pbar:
 					downloadFolder(param,pbar)
 			except:
-				print ("\033[0;31m" + "Wrong folder \033[0m")
+				print (RED + "Wrong folder" + DEFAULT)
 		else:
 			try:
 				ftp.voidcmd('TYPE i')
@@ -215,7 +215,7 @@ while True:
 				with tqdm(unit = 'blocks', unit_scale = True, leave = True, miniters = 1, desc = 'Downloading......', total = filesize) as pbar:
 					downloadFile(param,pbar)
 			except:
-				print ("\033[0;31m" + "Wrong filename \033[0m")
+				print (RED + "Wrong filename" + DEFAULT)
 	elif command == "upload":
 		if os.path.isdir(param):
 			try:
@@ -223,19 +223,19 @@ while True:
 				with tqdm(unit = 'blocks', unit_scale = True, leave = True, miniters = 1, desc = 'Uploading......', total = filesize) as pbar:
 					uploadFolder(param,pbar)
 			except:
-				print ("\033[0;31m" + "Wrong folder \033[0m")	
+				print (RED + "Wrong folder" + DEFAULT)	
 		else:
 			try:
 				filesize = os.path.getsize(param)
 				with tqdm(unit = 'blocks', unit_scale = True, leave = True, miniters = 1, desc = 'Uploading......', total = filesize) as pbar:
 					uploadFile(param,pbar)
 			except:
-				print ("\033[0;31m" + "Wrong filename \033[0m")
+				print (RED + "Wrong filename" + DEFAULT)
 	elif command == "cd":
 		try:
 			ftp.cwd(param)
 		except:
-			print ("\033[0;31m" + "Wrong directory \033[0m")
+			print (RED + "Wrong directory" + DEFAULT)
 	elif command == "ls":
 		for file in ftp.nlst():
 			if isFolder(file):
