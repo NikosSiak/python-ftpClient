@@ -161,7 +161,7 @@ def uploadFolder(foldername,pbar):
 			try:
 				uploadFile(file,pbar)
 			except:
-				print(RED + "error Uploading file: " + file + DEFAULT)
+				print(RED + "error uploading file: " + file + DEFAULT)
 	os.chdir('..')
 	ftp.cwd('..')
 
