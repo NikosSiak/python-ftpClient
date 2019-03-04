@@ -207,7 +207,7 @@ while True:
 				with tqdm(unit = 'blocks', unit_scale = True, leave = True, miniters = 1, desc = 'Downloading......', total = filesize) as pbar:
 					downloadFolder(param,pbar)
 			except:
-				print (RED + "Wrong folder" + DEFAULT)
+				print (RED + "Error" + DEFAULT)
 		else:
 			try:
 				ftp.voidcmd('TYPE i')
@@ -223,7 +223,7 @@ while True:
 				with tqdm(unit = 'blocks', unit_scale = True, leave = True, miniters = 1, desc = 'Uploading......', total = filesize) as pbar:
 					uploadFolder(param,pbar)
 			except:
-				print (RED + "Wrong folder" + DEFAULT)	
+				print (RED + "Error" + DEFAULT)	
 		else:
 			try:
 				filesize = os.path.getsize(param)
