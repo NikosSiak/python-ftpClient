@@ -254,4 +254,4 @@ while True:
 		ftp.quit()
 		break
 	else:
-		print ("Invalid command")
+		print ("Invalid command. Try 'help' for a list of commands")
