@@ -135,7 +135,7 @@ def downloadFolder(foldername,pbar):
 			try:
 				downloadFile(file,pbar)
 			except:
-				print(RED + "error" + DEFAULT)
+				print(RED + "Error Downloading File: " + file + DEFAULT)
 	os.chdir('..')
 	ftp.cwd('..')
 
@@ -161,7 +161,7 @@ def uploadFolder(foldername,pbar):
 			try:
 				uploadFile(file,pbar)
 			except:
-				print(RED + "error uploading file: " + file + DEFAULT)
+				print(RED + "Error Uploading File: " + file + DEFAULT)
 	os.chdir('..')
 	ftp.cwd('..')
 
@@ -215,7 +215,7 @@ while True:
 				with tqdm(unit = 'blocks', unit_scale = True, leave = True, miniters = 1, desc = 'Downloading......', total = filesize) as pbar:
 					downloadFile(param,pbar)
 			except:
-				print (RED + "Wrong filename" + DEFAULT)
+				print (RED + "Error Downloading file: " + param + DEFAULT)
 	elif command == "upload":
 		if os.path.isdir(param):
 			try:
@@ -230,7 +230,7 @@ while True:
 				with tqdm(unit = 'blocks', unit_scale = True, leave = True, miniters = 1, desc = 'Uploading......', total = filesize) as pbar:
 					uploadFile(param,pbar)
 			except:
-				print (RED + "Wrong filename" + DEFAULT)
+				print (RED + "Error Uploading file: " + param + DEFAULT)
 	elif command == "cd":
 		try:
 			ftp.cwd(param)
