@@ -4,9 +4,9 @@ import readline
 import os
 from tqdm import tqdm
 
-#BLUE='\033[1;34m'
-#RED='\033[0;31m'
-#DEFAULT='\033[0m'
+BLUE = '\033[1;34m'
+RED = '\033[0;31m'
+DEFAULT = '\033[0m'
 
 ftp = FTP('')
 ip = '192.168.1.50' #change it with yours
@@ -18,7 +18,7 @@ if len(sys.argv) == 3:
 		ftp.login(sys.argv[1],sys.argv[2])
 		ftp.encoding = 'utf-8'
 	except:
-		print ("\033[0;31m" + "Error Connecting to server \033[0m")
+		print (RED + "Error Connecting to server" + DEFAULT)
 		exit()
 else:
 	try:
@@ -26,7 +26,7 @@ else:
 		ftp.login()
 		ftp.encoding = 'utf-8'
 	except:
-		print ("\033[0;31m" + "Error Connecting to server \033[0m")
+		print (RED + "Error Connecting to server" + DEFAULT)
 		exit()
 
 def isFolder(foldername):
@@ -239,7 +239,7 @@ while True:
 	elif command == "ls":
 		for file in ftp.nlst():
 			if isFolder(file):
-				print('\033[1;34m' + file + '\033[0m')
+				print(BLUE + file + DEFAULT)
 			else:
 				print(file)
 	elif command == "pwd":
