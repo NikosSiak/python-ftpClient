@@ -13,13 +13,10 @@ pip install tqdm
 
 ## **Usage**
 
-if you want to connect as a user <br>
 ```
-python3 ftp-client.py username password
+python3 ftp-client.py ip port
 ```
-if you want to connect as anonymous <br>
-```
-python3 ftp-client.py
-````
+
+If you want to connect as anonymous user leave the username and password blank
 #### **Notes**
 works on termux on android and with the ubuntu terminal on windows
