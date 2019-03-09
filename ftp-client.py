@@ -9,25 +9,29 @@ RED = '\033[0;31m'
 DEFAULT = '\033[0m'
 
 ftp = FTP('')
-ip = '192.168.1.50' #change it with yours
-port = 2000 	    #change it with yours
 
-if len(sys.argv) == 3:
-	try:
-		ftp.connect(ip,port)
-		ftp.login(sys.argv[1],sys.argv[2])
-		ftp.encoding = 'utf-8'
-	except:
-		print (RED + "Error Connecting to server" + DEFAULT)
+if len(sys.argv) != 3:
+		print (RED + "Usage: " + sys.argv[0] + " ip port" + DEFAULT)
 		exit()
-else:
-	try:
-		ftp.connect(ip,port)
-		ftp.login()
-		ftp.encoding = 'utf-8'
-	except:
-		print (RED + "Error Connecting to server" + DEFAULT)
-		exit()
+
+ip = sys.argv[1]
+port = int(sys.argv[2])
+
+try:
+	ftp.connect(ip,port)
+except:
+	print (RED + "Error Connecting to Server" + DEFAULT)
+	exit()
+
+username = input("Username: ")
+password = input("Password: ")
+
+try:
+	ftp.login(username,password)
+	ftp.encoding = 'utf-8'
+except:
+	print (RED + "Wrong username or password" + DEFAULT)
+	exit()
 
 def isFolder(foldername):
 	try:
