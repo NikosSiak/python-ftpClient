@@ -187,7 +187,7 @@ readline.parse_and_bind("tab: complete")
 readline.set_completer(completer)
 
 while True:
-	temp = input(">>>")
+	temp = input(f"{ip}:{ftp.pwd()}$ ")
 	ind = temp.find(" ")
 	param = ""
 	if ind != -1:
