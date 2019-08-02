@@ -1,5 +1,5 @@
 # python-ftpClient
-A ftp client for Linux
+A ftp client for Linux with tab completion and progress bar
 
 ## Dependencies
 
