@@ -3,6 +3,7 @@ import sys
 import readline
 import os
 from tqdm import tqdm
+from getpass import getpass
 
 BLUE = '\033[1;34m'
 RED = '\033[0;31m'
@@ -24,7 +25,7 @@ except:
 	exit()
 
 username = input("Username: ")
-password = input("Password: ")
+password = getpass()
 
 try:
 	ftp.login(username,password)
