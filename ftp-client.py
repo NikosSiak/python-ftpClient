@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 from ftplib import FTP
 import sys
 import readline
@@ -43,6 +44,8 @@ def isFolder(foldername):
         return False
 
 def getSizeServer(path):
+    if not isFolder(path):
+        return ftp.size(param)
     size = 0
     ftp.cwd(path)
     for file in ftp.nlst():
@@ -55,6 +58,8 @@ def getSizeServer(path):
     return size
 
 def getSizeClient(path):
+    if not os.path.isdir(path):
+        return os.path.getsize(path)
     total_size = 0
     for dirpath, dirnames, filenames in os.walk(path):
         for f in filenames:
@@ -119,6 +124,9 @@ def downloadFile(filename,pbar):
         ftp.retrbinary('RETR {}'.format(filename2), cb)
 
 def downloadFolder(foldername,pbar):
+    if not isFolder(foldername):
+        downloadFile(foldername, pbar)
+        return
     counter = 0
     foldername2 = foldername
     while os.path.exists(foldername):
@@ -145,6 +153,9 @@ def downloadFolder(foldername,pbar):
     ftp.cwd('..')
 
 def uploadFolder(foldername,pbar):
+    if not os.path.isdir(param):
+        uploadFile(foldername, pbar)
+        return
     counter = 0
     foldername2 = foldername
     while foldername in ftp.nlst():
@@ -179,9 +190,9 @@ def completer(text, state):
         if i.startswith(text):
             options.append(i)
     if state < len(options):
-            return options[state]
+        return options[state]
     else:
-            return None
+        return None
 
 
 readline.parse_and_bind("tab: complete")
@@ -206,36 +217,20 @@ while True:
         print ("size filename/directory")
         print ("exit")
     elif command == "download":
-        if isFolder(param):
-            try:
-                filesize = getSizeServer(param)
-                with tqdm(unit = 'blocks', unit_scale = True, leave = True, miniters = 1, desc = 'Downloading......', total = filesize) as pbar:
-                    downloadFolder(param,pbar)
-            except:
-                print (RED + "Error" + DEFAULT)
-        else:
-            try:
-                ftp.voidcmd('TYPE i')
-                filesize = ftp.size(param)
-                with tqdm(unit = 'blocks', unit_scale = True, leave = True, miniters = 1, desc = 'Downloading......', total = filesize) as pbar:
-                    downloadFile(param,pbar)
-            except:
-                print (RED + "Error Downloading file: " + param + DEFAULT)
+        ftp.voidcmd('TYPE i')
+        try:
+            filesize = getSizeServer(param)
+            with tqdm(unit = 'blocks', unit_scale = True, leave = True, miniters = 1, desc = 'Downloading......', total = filesize) as pbar:
+                downloadFolder(param,pbar)
+        except:
+            print (RED + "Error Downloading " + param + DEFAULT)
     elif command == "upload":
-        if os.path.isdir(param):
-            try:
-                filesize = getSizeClient(param)
-                with tqdm(unit = 'blocks', unit_scale = True, leave = True, miniters = 1, desc = 'Uploading......', total = filesize) as pbar:
-                    uploadFolder(param,pbar)
-            except:
-                print (RED + "Error" + DEFAULT) 
-        else:
-            try:
-                filesize = os.path.getsize(param)
-                with tqdm(unit = 'blocks', unit_scale = True, leave = True, miniters = 1, desc = 'Uploading......', total = filesize) as pbar:
-                    uploadFile(param,pbar)
-            except:
-                print (RED + "Error Uploading file: " + param + DEFAULT)
+        try:
+            filesize = getSizeClient(param)
+            with tqdm(unit = 'blocks', unit_scale = True, leave = True, miniters = 1, desc = 'Uploading......', total = filesize) as pbar:
+                uploadFolder(param,pbar)
+        except:
+            print (RED + "Error Uploading " + param + DEFAULT) 
     elif command == "cd":
         try:
             ftp.cwd(param)
