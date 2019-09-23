@@ -13,8 +13,8 @@ DEFAULT = '\033[0m'
 ftp = FTP('')
 
 if len(sys.argv) != 3:
-        print (RED + "Usage: " + sys.argv[0] + " ip port" + DEFAULT)
-        exit()
+    print (RED + "Usage: " + sys.argv[0] + " ip port" + DEFAULT)
+    exit()
 
 ip = sys.argv[1]
 port = int(sys.argv[2])
