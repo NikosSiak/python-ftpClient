@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+
 from ftplib import FTP
 import sys
 import readline
@@ -44,8 +45,6 @@ def isFolder(foldername):
         return False
 
 def getSizeServer(path):
-    if not isFolder(path):
-        return ftp.size(param)
     size = 0
     ftp.cwd(path)
     for file in ftp.nlst():
