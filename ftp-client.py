@@ -123,9 +123,6 @@ def downloadFile(filename,pbar):
         ftp.retrbinary('RETR {}'.format(filename2), cb)
 
 def downloadFolder(foldername,pbar):
-    if not isFolder(foldername):
-        downloadFile(foldername, pbar)
-        return
     counter = 0
     foldername2 = foldername
     while os.path.exists(foldername):
@@ -152,9 +149,6 @@ def downloadFolder(foldername,pbar):
     ftp.cwd('..')
 
 def uploadFolder(foldername,pbar):
-    if not os.path.isdir(param):
-        uploadFile(foldername, pbar)
-        return
     counter = 0
     foldername2 = foldername
     while foldername in ftp.nlst():
@@ -217,19 +211,35 @@ while True:
         print ("exit")
     elif command == "download":
         ftp.voidcmd('TYPE i')
-        try:
-            filesize = getSizeServer(param)
-            with tqdm(unit = 'blocks', unit_scale = True, leave = True, miniters = 1, desc = 'Downloading......', total = filesize) as pbar:
-                downloadFolder(param,pbar)
-        except:
-            print (RED + "Error Downloading " + param + DEFAULT)
+        if isFolder(param):
+            try:
+                filesize = getSizeServer(param)
+                with tqdm(unit = 'blocks', unit_scale = True, leave = True, miniters = 1, desc = 'Downloading......', total = filesize) as pbar:
+                    downloadFolder(param,pbar)
+            except:
+                print (RED + "Error Downloading " + param + DEFAULT)
+        else:
+            try:
+                filesize = ftp.size(param)
+                with tqdm(unit='blocks', unit_scale=True, leave=True, miniters=1, desc='Downloading......', total=filesize) as pbar:
+                    downloadFile(param, pbar)
+            except:
+                print(RED + "Error Downloading " + param + DEFAULT)
     elif command == "upload":
-        try:
-            filesize = getSizeClient(param)
-            with tqdm(unit = 'blocks', unit_scale = True, leave = True, miniters = 1, desc = 'Uploading......', total = filesize) as pbar:
-                uploadFolder(param,pbar)
-        except:
-            print (RED + "Error Uploading " + param + DEFAULT) 
+        if isFolder(param):
+            try:
+                filesize = getSizeClient(param)
+                with tqdm(unit = 'blocks', unit_scale = True, leave = True, miniters = 1, desc = 'Uploading......', total = filesize) as pbar:
+                    uploadFolder(param,pbar)
+            except:
+                print (RED + "Error Uploading " + param + DEFAULT) 
+        else:
+            try:
+                filesize = getSizeClient(param)
+                with tqdm(unit='blocks', unit_scale=True, leave=True, miniters=1, desc='Uploading......', total=filesize) as pbar:
+                    uploadFile(param, pbar)
+            except:
+                print(RED + "Error Uploading " + param + DEFAULT)
     elif command == "cd":
         try:
             ftp.cwd(param)
